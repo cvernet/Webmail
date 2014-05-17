@@ -4,18 +4,18 @@
 <a href="#/NewMail"><span class="icon-pencil"></span>New Mail</a>
 
 
- <form id="formNewMail" name="formNewMail">
+                <form id="formNewMail" name="formNewMail">
                     <div class="input-group">
                         <span class="input-group-addon">To</span>
-                        <input type="text" class="form-control" ng-model="nouveauMail.to" />
+                        <input type="text" class="form-control" ng-model="to" />
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">Subject</span>
-                        <input type="text" class="form-control" ng-model="nouveauMail.subject" />
+                        <input type="text" class="form-control" ng-model="subject" />
                     </div>
 
                     <div class="spacer">
-                        <textarea ui-tinymce="optionsTinyMce" class="contenuNouveauMail" rows="10" ng-model="nouveauMail.content"></textarea>
+                        <textarea ui-tinymce="optionsTinyMce" class="contenuNouveauMail" rows="10" ng-model="content"></textarea>
                     </div>  
 
                     <div class="spacer">

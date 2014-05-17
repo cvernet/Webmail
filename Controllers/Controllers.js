@@ -24,9 +24,9 @@ var webmail = angular.module("webmail", ['ui.tinymce']).
 webmail.controller('Inbox',
 function ($scope, $http, $routeParams) {
   $scope.mails = [
-  {"from": "Sandra","to": "Cyril","subject": "Tonight","date": "16/05/2014"},
-  {"from": "Alex","to": "Cyril2","subject": "Webmail","date": "17/05/2014"},
-  {"from": "Guillaume","to": "Cyril","subject": "News","date": "18/05/2014"}
+  {"from": "Sandra","to": "Cyril","subject": "Tonight","date": "16 may"},
+  {"from": "Alex","to": "Cyril2","subject": "Webmail","date": "17 may"},
+  {"from": "Guillaume","to": "Cyril","subject": "News","date": "18 may"}
   
   ];                                   
 });
@@ -57,6 +57,14 @@ function ($scope, $http, $routeParams) {
 		statusbar: false,
 		menubar: false
 	};
+
+  $scope.SendMail = function () {
+  //Call nodejs server to send mail
+   data = '{"from":"cvernet@gmail.com","to":"cvernet@gmail.com","subject":"' + $scope.subject + '","content":"' + $scope.content + '"}';
+    $http.post('http://mail-cver.rhcloud.com/post', data).success(
+          function(data) {
+      	  });
+  };
                                      
 });
 
