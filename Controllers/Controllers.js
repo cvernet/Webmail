@@ -8,14 +8,15 @@
 var webmail = angular.module("webmail", ['ui.tinymce']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-      when('/Inbox', {templateUrl: 'Views/Inbox.html',   controller: 'Inbox'}).
+      when('/Inbox', {templateUrl: 'Views/Inbox.html',   controller: 'MyInbox'}).
+      when('/MyInbox', {templateUrl: 'Views/Inbox.html',   controller: 'MyInbox'}).
       when('/Mail', {templateUrl: 'Views/Mail.html', controller: 'Mail'}).      
       when('/NewMail', {templateUrl: 'Views/NewMail.html', controller: 'NewMail'}).      
       when('/Sent', {templateUrl: 'Views/Sent.html', controller: 'Sent'}).                  
       when('/Trash', {templateUrl: 'Views/Trash.html', controller: 'Trash'}).                  
       when('/Help', {templateUrl: 'Views/Help.html', controller: 'Help'}).                  
       when('/Settings', {templateUrl: 'Views/Settings.html',   controller: 'Settings'}).
-      otherwise({templateUrl: 'Views/Inbox.html', controller: 'Inbox'});
+      otherwise({templateUrl: 'Views/Inbox.html', controller: 'MyInbox'});
 }]);
 
 //
@@ -29,6 +30,19 @@ function ($scope, $http, $routeParams) {
   {"from": "Guillaume","to": "Cyril","subject": "News","date": "18 may"}
   
   ];                                   
+});
+
+//
+//MyInbox
+//
+webmail.controller('MyInbox',
+function ($scope, $http, $routeParams) {
+  url = 'http://mail-cver.rhcloud.com/imap';
+  var promise = $http.get(url).then(function(response) {
+	$scope.mails = response.data;
+}
+	);
+                                    
 });
 
 //
@@ -47,7 +61,7 @@ function ($scope, $http, $routeParams) {
 //NewMail
 //
 webmail.controller('NewMail',
-function ($scope, $http, $routeParams) {          
+function ($scope, $http, $routeParams, $location) {          
   		if (tinyMCE.activeEditor) {
 			tinyMCE.activeEditor.setContent("");
 		}
@@ -60,10 +74,14 @@ function ($scope, $http, $routeParams) {
 
   $scope.SendMail = function () {
   //Call nodejs server to send mail
-   data = '{"from":"cvernet@gmail.com","to":"cvernet@gmail.com","subject":"' + $scope.subject + '","content":"' + $scope.content + '"}';
+  // data = '{"from":"cvernet@gmail.com","to":"cvernet@gmail.com","subject":"' + $scope.subject + '","content":"' + $scope.content + '"}';
+    data =  JSON.stringify($scope.mail);
+    
     $http.post('http://mail-cver.rhcloud.com/post', data).success(
           function(data) {
       	  });
+     
+    $location.path( "/Inbox" );
   };
                                      
 });
